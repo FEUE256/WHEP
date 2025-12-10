@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sv">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The White Hole Existence Principle (WHEP)</title>
+<title>FÈUE – Scientific Documents</title>
+
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -58,16 +59,26 @@
     margin-bottom: 20px;
   }
 
+  select {
+    padding: 10px;
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
   a.pdf-link {
     display: inline-block;
-    margin-top: 10px;
+    margin-top: 7px;
     padding: 10px 15px;
     background-color: #0066cc;
     color: #fff;
     text-decoration: none;
     border-radius: 4px;
   }
-
   a.pdf-link:hover {
     background-color: #004999;
   }
@@ -87,78 +98,67 @@
     text-align: center;
     padding: 15px 20px;
   }
-
 </style>
-   <link rel="icon" type="image/x-icon" href="https://feue256.github.io/start/assets/ico/shell32_51682.ico">
+
+<link rel="icon" type="image/x-icon" href="https://feue256.github.io/start/assets/ico/shell32_51682.ico">
 </head>
 <body>
 
 <header>
-  <h1><center>WHEP – The White Hole Existence Principle</center></h1>
+  <h1><center>FÈUE – Scientific Documents</center></h1>
   <center>
     <nav>
-    <a href="#about">About</a>
-    <a href="#document">Document</a>
-    <a href="#terms">Terms</a>
-    <a href="#contact">Contact</a>
-  </nav>
+      <a href="#about">About</a>
+      <a href="#document">Documents</a>
+      <a href="#terms">Terms</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </center>
 </header>
 
 <main>
 
 <section id="about">
-  <h2>About WHEP</h2>
-  <p>The White Hole Existence Principle (WHEP) is a theoretical framework developed by Nils Efverman and published by Förenta Evolutionernas Universitets Elektronik (FÈUE). WHEP investigates the properties and theoretical existence of white holes in the context of exotic matter and fundamental physics.</p>
+  <h2>About</h2>
+  <p>This website provides access to research documents created by Förenta Evolutionernas Universitets Elektronik (FÈUE). Documents include theoretical frameworks such as WHEP, C²T, QT², and PON.</p>
 </section>
 
 <section id="document">
-  <h2>Download WHEP Parts</h2>
-  <p>The current working draft of WHEP is available as a PDF. It is a work-in-progress and subject to revisions.</p>
-  <ul>
-    <!-- Loop över 50 delar -->
-    <script>
-      const pdfCount = 51;
-      const pdfList = document.createElement('ul');
+  <h2>Choose Document</h2>
 
-      for (let i = 1; i <= pdfCount; i++) {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
+  <label for="docSelect"><b>Select Document:</b></label><br>
+  <select id="docSelect" onchange="loadList()">
+    <option value="">-- Select --</option>
+    <option value="whep">WHEP (1–51)</option>
+    <option value="c2t">C²T (Full PDF)</option>
+    <option value="qt2">QT² (Full PDF)</option>
+    <option value="pon">PON (Full PDF)</option>
+  </select>
 
-        a.href = `pdf/whep_${i}.pdf`; // relativ länk
-        a.className = 'pdf-link';
-        a.textContent = `WHEP Part ${i}`;
-        li.appendChild(a);
-        pdfList.appendChild(li);
-      }
+  <div id="pdfContainer" style="margin-top:20px;"></div>
 
-      document.getElementById('document').appendChild(pdfList);
-    </script>
-  </ul>
 </section>
 
 <section id="terms">
   <h2>Terms of Access</h2>
-  <p>By accessing the PDF, you agree to the <a href="./LICENSE" target="_blank">LICENSE</a> and FÈUE’s General Terms of Use.</p>
+  <p>By accessing any PDF, you agree to the <a href="./LICENSE" target="_blank">LICENSE</a> and FÈUE’s General Terms of Use.</p>
   <ul>
     <li>No reproduction, distribution, or modification is allowed without explicit written permission from FÈUE.</li>
     <li>Unauthorized use constitutes a violation of copyright law.</li>
   </ul>
   <p>
-    © 2025 Förenta Evolutionernas Universitets Elektronik (FÈUE). All Rights Reserved.<br>
-    All material, diagrams, data, and theoretical content in this document related to WHEP are protected by copyright and intellectual property laws.
+    © 2025 Förenta Evolutionernas Universitets Elektronik (FÈUE). All Rights Reserved.
   </p>
   <div class="notice">
-    WHEP is a work-in-progress and not in its final version. Feedback is currently being accepted publicly. For formal inquiries, please contact FÈUE at <a href="mailto:feue.com1@outlook.com">feue.com1@outlook.com</a>.
+    All listed work is under development. Feedback is accepted publicly. For formal inquiries, contact <a href="mailto:feue.com1@outlook.com">feue.com1@outlook.com</a>.
   </div>
 </section>
 
 <section id="contact">
   <h2>Contact</h2>
-  <p>For questions or formal requests regarding WHEP, please contact FÈUE directly:</p>
   <ul>
     <li>Email: <a href="mailto:feue.com1@outlook.com">feue.com1@outlook.com</a></li>
-    <li>FÈUE's Website: <a href="https://feue256.github.io" target="_blank">feue256.github.io</a></li>
+    <li>Website: <a href="https://feue256.github.io" target="_blank">feue256.github.io</a></li>
   </ul>
 </section>
 
@@ -167,6 +167,52 @@
 <footer>
   © 2025 FÈUE – All Rights Reserved
 </footer>
+
+<script>
+function loadList() {
+  const container = document.getElementById('pdfContainer');
+  const select = document.getElementById('docSelect').value;
+  container.innerHTML = ""; // Rensa innan ny visning
+
+  if (select === "whep") {
+    const ul = document.createElement("ul");
+    for (let i = 1; i <= 51; i++) {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = `pdf/whep_${i}.pdf`;
+      a.className = "pdf-link";
+      a.textContent = `WHEP Part ${i}`;
+      li.appendChild(a);
+      ul.appendChild(li);
+    }
+    container.appendChild(ul);
+  }
+
+  if (select === "c2t") {
+    const a = document.createElement("a");
+    a.href = `pdf/c2t.pdf`;
+    a.className = "pdf-link";
+    a.textContent = "Download C²T";
+    container.appendChild(a);
+  }
+
+  if (select === "qt2") {
+    const a = document.createElement("a");
+    a.href = `pdf/qt2.pdf`;
+    a.className = "pdf-link";
+    a.textContent = "Download QT²";
+    container.appendChild(a);
+  }
+
+  if (select === "pon") {
+    const a = document.createElement("a");
+    a.href = `pdf/pon.pdf`;
+    a.className = "pdf-link";
+    a.textContent = "Download PON";
+    container.appendChild(a);
+  }
+}
+</script>
 
 </body>
 </html>
