@@ -120,7 +120,7 @@
 
 <section id="about">
   <h2>About</h2>
-  <p>This website provides access to research documents created by Förenta Evolutionernas Universitets Elektronik (FÈUE). Documents include theoretical frameworks such as WHEP, C²T, QT², and PON.</p>
+  <p>This website provides access to research documents created by Förenta Evolutionernas Universitets Elektronik (FÈUE). Documents include theoretical frameworks such as WHEP, C²T, and PON.</p>
 </section>
 
 <section id="document">
@@ -131,7 +131,6 @@
     <option value="">-- Select --</option>
     <option value="whep">WHEP (1–51)</option>
     <option value="c2t">C²T (Full PDF)</option>
-    <option value="qt2">QT² (Full PDF)</option>
     <option value="pon">PON (Full PDF)</option>
   </select>
 
@@ -193,14 +192,6 @@ function loadList() {
     a.href = `pdf/c2t.pdf`;
     a.className = "pdf-link";
     a.textContent = "Download C²T";
-    container.appendChild(a);
-  }
-
-  if (select === "qt2") {
-    const a = document.createElement("a");
-    a.href = `pdf/qt2.pdf`;
-    a.className = "pdf-link";
-    a.textContent = "Download QT²";
     container.appendChild(a);
   }
 
