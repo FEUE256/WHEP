@@ -6,34 +6,47 @@
 <title>FÈUE – Scientific Documents</title>
 
 <style>
+  :root {
+    --bg-dark: #222;
+    --bg-light: #f9f9f9;
+    --accent: #0066cc;
+    --accent-dark: #004999;
+    --text-light: #fff;
+    --text-dark: #000;
+  }
+
   body {
     font-family: Arial, sans-serif;
     margin: 0;
     line-height: 1.6;
     scroll-behavior: smooth;
+    background-color: #fff;
   }
 
   header {
     position: sticky;
     top: 0;
-    background-color: #222;
-    color: #fff;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
     padding: 15px 20px;
     z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.25);
   }
 
   header h1 {
     margin: 0;
-    font-size: 1.5em;
+    font-size: 1.6em;
+    text-align: center;
   }
 
   nav {
     margin-top: 10px;
+    text-align: center;
   }
 
   nav a {
-    color: #fff;
-    margin-right: 20px;
+    color: var(--text-light);
+    margin: 0 15px;
     text-decoration: none;
     font-weight: bold;
   }
@@ -63,6 +76,8 @@
     padding: 10px;
     font-size: 16px;
     margin-top: 10px;
+    width: 100%;
+    max-width: 300px;
   }
 
   ul {
@@ -70,57 +85,62 @@
     padding: 0;
   }
 
-  a.pdf-link {
+  .pdf-link {
     display: inline-block;
     margin-top: 7px;
     padding: 10px 15px;
-    background-color: #0066cc;
-    color: #fff;
+    background-color: var(--accent);
+    color: var(--text-light);
     text-decoration: none;
     border-radius: 4px;
   }
-  a.pdf-link:hover {
-    background-color: #004999;
+
+  .pdf-link:hover {
+    background-color: var(--accent-dark);
   }
 
   .notice {
     font-style: italic;
-    color: #555;
-    background-color: #f9f9f9;
+    color: #444;
+    background-color: var(--bg-light);
     border-left: 4px solid #ccc;
     padding: 10px 15px;
     margin-top: 20px;
   }
 
   footer {
-    background-color: #222;
-    color: #fff;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
     text-align: center;
     padding: 15px 20px;
+    margin-top: 40px;
   }
 </style>
 
 <link rel="icon" type="image/x-icon" href="https://feue256.github.io/start/assets/ico/shell32_51682.ico">
+
 </head>
 <body>
 
 <header>
-  <h1><center>FÈUE – Scientific Documents</center></h1>
-  <center>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#document">Documents</a>
-      <a href="#terms">Terms</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </center>
+  <h1>FÈUE – Scientific Documents</h1>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#document">Documents</a>
+    <a href="#terms">Terms</a>
+    <a href="#contact">Contact</a>
+  </nav>
 </header>
 
 <main>
 
 <section id="about">
   <h2>About</h2>
-  <p>This website provides access to research documents created by Förenta Evolutionernas Universitets Elektronik (FÈUE). Documents include theoretical frameworks such as WHEP, C²T, and PON.</p>
+  <p>
+    This website provides access to research documents created by 
+    Förenta Evolutionernas Universitets Elektronik (FÈUE). Documents include theoretical
+    frameworks such as WHEP, C²T, and PON.
+  </p>
 </section>
 
 <section id="document">
@@ -135,7 +155,6 @@
   </select>
 
   <div id="pdfContainer" style="margin-top:20px;"></div>
-
 </section>
 
 <section id="terms">
@@ -145,11 +164,12 @@
     <li>No reproduction, distribution, or modification is allowed without explicit written permission from FÈUE.</li>
     <li>Unauthorized use constitutes a violation of copyright law.</li>
   </ul>
-  <p>
-    © 2025 Förenta Evolutionernas Universitets Elektronik (FÈUE). All Rights Reserved.
-  </p>
+  <p>© 2025 Förenta Evolutionernas Universitets Elektronik (FÈUE). All Rights Reserved.</p>
+
   <div class="notice">
-    All listed work is under development. Feedback is accepted publicly. For formal inquiries, contact <a href="mailto:feue.com1@outlook.com">feue.com1@outlook.com</a>.
+    All listed work is under development. Feedback is accepted publicly. 
+    For formal inquiries, contact 
+    <a href="mailto:feue.com1@outlook.com">feue.com1@outlook.com</a>.
   </div>
 </section>
 
@@ -170,37 +190,23 @@
 <script>
 function loadList() {
   const container = document.getElementById('pdfContainer');
-  const select = document.getElementById('docSelect').value;
-  container.innerHTML = ""; // Rensa innan ny visning
+  const doc = document.getElementById('docSelect').value;
+  container.innerHTML = "";
 
-  if (select === "whep") {
+  if (doc === "whep") {
     const ul = document.createElement("ul");
     for (let i = 1; i <= 51; i++) {
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = `pdf/whep_${i}.pdf`;
-      a.className = "pdf-link";
-      a.textContent = `WHEP Part ${i}`;
-      li.appendChild(a);
-      ul.appendChild(li);
+      ul.innerHTML += `<li><a class="pdf-link" href="pdf/whep_${i}.pdf">WHEP Part ${i}</a></li>`;
     }
     container.appendChild(ul);
   }
 
-  if (select === "c2t") {
-    const a = document.createElement("a");
-    a.href = `pdf/c2t.pdf`;
-    a.className = "pdf-link";
-    a.textContent = "Download C²T";
-    container.appendChild(a);
+  if (doc === "c2t") {
+    container.innerHTML = `<a class="pdf-link" href="pdf/c2t.pdf">Download C²T</a>`;
   }
 
-  if (select === "pon") {
-    const a = document.createElement("a");
-    a.href = `pdf/pon.pdf`;
-    a.className = "pdf-link";
-    a.textContent = "Download PON";
-    container.appendChild(a);
+  if (doc === "pon") {
+    container.innerHTML = `<a class="pdf-link" href="pdf/pon.pdf">Download PON</a>`;
   }
 }
 </script>
