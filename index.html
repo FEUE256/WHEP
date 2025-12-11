@@ -1,215 +1,459 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>FÈUE – Scientific Documents</title>
-
-<style>
-  :root {
-    --bg-dark: #222;
-    --bg-light: #f9f9f9;
-    --accent: #0066cc;
-    --accent-dark: #004999;
-    --text-light: #fff;
-    --text-dark: #000;
-  }
-
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    line-height: 1.6;
-    scroll-behavior: smooth;
-    background-color: #fff;
-  }
-
-  header {
-    position: sticky;
-    top: 0;
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    padding: 15px 20px;
-    z-index: 1000;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.25);
-  }
-
-  header h1 {
-    margin: 0;
-    font-size: 1.6em;
-    text-align: center;
-  }
-
-  nav {
-    margin-top: 10px;
-    text-align: center;
-  }
-
-  nav a {
-    color: var(--text-light);
-    margin: 0 15px;
-    text-decoration: none;
-    font-weight: bold;
-  }
-
-  nav a:hover {
-    text-decoration: underline;
-  }
-
-  main {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 0 20px;
-  }
-
-  section {
-    margin-bottom: 60px;
-    padding-top: 20px;
-  }
-
-  section h2 {
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-  }
-
-  select {
-    padding: 10px;
-    font-size: 16px;
-    margin-top: 10px;
-    width: 100%;
-    max-width: 300px;
-  }
-
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-
-  .pdf-link {
-    display: inline-block;
-    margin-top: 7px;
-    padding: 10px 15px;
-    background-color: var(--accent);
-    color: var(--text-light);
-    text-decoration: none;
-    border-radius: 4px;
-  }
-
-  .pdf-link:hover {
-    background-color: var(--accent-dark);
-  }
-
-  .notice {
-    font-style: italic;
-    color: #444;
-    background-color: var(--bg-light);
-    border-left: 4px solid #ccc;
-    padding: 10px 15px;
-    margin-top: 20px;
-  }
-
-  footer {
-    background-color: var(--bg-dark);
-    color: var(--text-light);
-    text-align: center;
-    padding: 15px 20px;
-    margin-top: 40px;
-  }
-</style>
-
 <link rel="icon" type="image/x-icon" href="https://feue256.github.io/start/assets/ico/shell32_51682.ico">
+<style>
+  :root{
+    --bg:#ffffff; --card:#fbfbfb; --text:#111;
+    --muted:#666; --accent:#0066cc; --accent-2:#004999;
+    --accent-contrast:#fff; --notice:#f4f7fb;
+  }
+  [data-theme="dark"]{
+    --bg:#0f1113; --card:#121416; --text:#e6eef8;
+    --muted:#9fb2cf; --accent:#2b8cff; --accent-2:#1e66cc;
+    --accent-contrast:#0b1220; --notice:#09131b;
+  }
 
+  /* Base */
+  html,body{height:100%; margin:0; background:var(--bg); color:var(--text); font-family:Inter, "Segoe UI", Roboto, Arial, sans-serif; -webkit-font-smoothing:antialiased;}
+  a{color:inherit}
+  main{max-width:1100px; margin:28px auto; padding:20px; box-sizing:border-box;}
+
+  /* Header */
+  header{position:sticky; top:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 18px; background:linear-gradient(180deg, rgba(0,0,0,0.04), transparent); backdrop-filter: blur(4px);}
+  .brand{display:flex; gap:12px; align-items:center;}
+  .brand h1{font-size:1.05rem; margin:0; letter-spacing:0.2px;}
+  nav.desktop{display:flex; gap:10px; align-items:center;}
+  nav.desktop a{padding:8px 10px; border-radius:8px; text-decoration:none; color:var(--muted); font-weight:600;}
+  nav.desktop a.active, nav.desktop a:hover{background:var(--card); color:var(--text); box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+
+  /* Controls */
+  .controls{display:flex; gap:10px; align-items:center;}
+  .btn{appearance:none; border:0; padding:8px 12px; border-radius:8px; cursor:pointer; font-weight:600; background:var(--accent); color:var(--accent-contrast);}
+  .btn.ghost{background:transparent; color:var(--muted); border:1px solid rgba(0,0,0,0.06);}
+
+  /* Mobile */
+  .hamburger{display:none; width:44px; height:40px; align-items:center; justify-content:center; background:transparent; border-radius:8px; border:0; cursor:pointer;}
+  .hamburger span{display:block; width:20px; height:2px; background:var(--text); margin:3px 0; transition:transform .18s ease, opacity .12s ease;}
+
+  /* Grid layout */
+  .grid{display:grid; grid-template-columns: 1fr 360px; gap:20px; align-items:start;}
+  @media (max-width:980px){ .grid{grid-template-columns:1fr;} nav.desktop{display:none;} .hamburger{display:flex;} }
+
+  /* Card */
+  .card{background:var(--card); border-radius:12px; padding:16px; box-shadow:0 6px 18px rgba(2,6,23,0.04); transition:transform .16s ease, box-shadow .16s ease;}
+  .card:hover{transform:translateY(-4px); box-shadow:0 10px 26px rgba(2,6,23,0.07);}
+
+  h2{margin:0 0 10px 0; font-size:1.05rem}
+  p.lead{margin:0 0 12px 0; color:var(--muted)}
+
+  /* Selects / Inputs */
+  .row{display:flex; gap:8px; align-items:center; margin-bottom:12px;}
+  .row input[type="search"], select, .row input[type="text"]{flex:1; padding:10px 12px; border-radius:10px; border:1px solid rgba(0,0,0,0.06); background:transparent; color:var(--text); outline:none; font-size:0.95rem;}
+  .small{width:120px}
+
+  /* PDF list */
+  .list{list-style:none; padding:0; margin:0; display:grid; gap:8px;}
+  .item{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px; border-radius:10px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);}
+  .item .meta{display:flex; gap:10px; align-items:center;}
+  .tag{font-size:12px; color:var(--muted); padding:6px 8px; border-radius:8px; background:transparent;}
+  .actions{display:flex; gap:8px; align-items:center;}
+
+  /* Modal preview */
+  .modal{position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.55); z-index:80; opacity:0; pointer-events:none; transition:opacity .18s ease;}
+  .modal.open{opacity:1; pointer-events:auto;}
+  .preview{width:90%; max-width:1100px; height:80vh; background:var(--card); border-radius:12px; overflow:hidden; display:flex; flex-direction:column;}
+  .preview iframe{flex:1; border:0;}
+  .preview .bar{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 12px; background:linear-gradient(180deg, rgba(0,0,0,0.03), transparent);}
+
+  /* Notice */
+  .notice{padding:12px; border-radius:8px; background:var(--notice); color:var(--muted); margin-top:12px; font-size:0.95rem;}
+
+  /* Footer */
+  footer{margin-top:28px; text-align:center; color:var(--muted); font-size:0.9rem;}
+
+  /* subtle animation */
+  .fade-in{animation:fadeIn .28s ease both}
+  @keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;} }
+</style>
 </head>
-<body>
-
+<body data-theme="light">
 <header>
-  <h1>FÈUE – Scientific Documents</h1>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#document">Documents</a>
-    <a href="#terms">Terms</a>
-    <a href="#contact">Contact</a>
+  <div class="brand" aria-hidden="false">
+    <img src="https://feue256.github.io/start/assets/ico/shell32_51682.ico" alt="" style="width:36px;height:36px;border-radius:8px">
+    <div>
+      <h1>FÈUE – Scientific Documents</h1>
+      <div style="font-size:12px;color:var(--muted)">Förenta Evolutionernas Universitets Elektronik</div>
+    </div>
+  </div>
+
+  <nav class="desktop" aria-label="Huvudmeny" id="mainNav">
+    <a href="#about" data-target="about" class="active">About</a>
+    <a href="#document" data-target="document">Documents</a>
+    <a href="#terms" data-target="terms">Terms</a>
+    <a href="#contact" data-target="contact">Contact</a>
   </nav>
+
+  <div class="controls">
+    <button class="btn ghost" id="darkToggle" title="Dark mode">Dark</button>
+    <button class="btn" id="downloadAll" title="Ladda ner markerade / alla">Export</button>
+    <button class="hamburger" id="hambtn" aria-label="Meny">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </header>
 
 <main>
+  <div class="grid">
+    <section class="card fade-in" aria-labelledby="aboutTitle">
+      <h2 id="aboutTitle">About</h2>
+      <p class="lead">Den här webbplatsen ger åtkomst till forskningsdokument skapade av FÈUE — inklusive WHEP, C²T och PON. Använd sök och filter för att snabbt hitta delar.</p>
 
-<section id="about">
-  <h2>About</h2>
-  <p>
-    This website provides access to research documents created by 
-    Förenta Evolutionernas Universitets Elektronik (FÈUE). Documents include theoretical
-    frameworks such as WHEP, C²T, and PON.
-  </p>
-</section>
+      <h2 style="margin-top:18px">Välj & sök dokument</h2>
+      <div class="row" style="margin-top:8px">
+        <select id="docSelect" aria-label="Välj dokument">
+          <option value="">— Välj dokument —</option>
+          <option value="whep">WHEP (1–51)</option>
+          <option value="c2t">C²T (Full PDF)</option>
+          <option value="pon">PON (Full PDF)</option>
+        </select>
 
-<section id="document">
-  <h2>Choose Document</h2>
+        <select id="whepRange" class="small" aria-label="WHEP val" disabled>
+          <option value="all">Alla delar</option>
+          <!-- options skapas dynamiskt -->
+        </select>
+      </div>
 
-  <label for="docSelect"><b>Select Document:</b></label><br>
-  <select id="docSelect" onchange="loadList()">
-    <option value="">-- Select --</option>
-    <option value="whep">WHEP (1–51)</option>
-    <option value="c2t">C²T (Full PDF)</option>
-    <option value="pon">PON (Full PDF)</option>
-  </select>
+      <div class="row">
+        <input type="search" id="globalSearch" placeholder="Sök dokument (titel, delnummer)..." aria-label="Sök dokument">
+        <button class="btn" id="searchBtn">Sök</button>
+      </div>
 
-  <div id="pdfContainer" style="margin-top:20px;"></div>
-</section>
+      <div class="notice" id="statusBox">Välj ett dokument ovan för att visa filerna. Klicka på ett dokument för förhandsvisning eller högerklicka för att ladda ner.</div>
 
-<section id="terms">
-  <h2>Terms of Access</h2>
-  <p>By accessing any PDF, you agree to the <a href="./LICENSE" target="_blank">LICENSE</a> and FÈUE’s General Terms of Use.</p>
-  <ul>
-    <li>No reproduction, distribution, or modification is allowed without explicit written permission from FÈUE.</li>
-    <li>Unauthorized use constitutes a violation of copyright law.</li>
-  </ul>
-  <p>© 2025 Förenta Evolutionernas Universitets Elektronik (FÈUE). All Rights Reserved.</p>
+      <ul class="list" id="pdfList" style="margin-top:12px" aria-live="polite"></ul>
+    </section>
 
-  <div class="notice">
-    All listed work is under development. Feedback is accepted publicly. 
-    For formal inquiries, contact 
-    <a href="mailto:feue.com1@outlook.com">feue.com1@outlook.com</a>.
+    <aside class="card fade-in" aria-labelledby="helpTitle">
+      <h2 id="helpTitle">Snabbinformation</h2>
+      <p><strong>Förhandsvisning:</strong> Klicka på ikonen 🖼️ i en rad för att öppna PDF i en förhandsvisning (modal).</p>
+      <p><strong>Nedladdning:</strong> Klicka på pil-ikonen för att ladda ner en fil, eller markera flera och tryck Export.</p>
+
+      <hr style="margin:12px 0">
+
+      <h3 style="margin:8px 0">Kontakt</h3>
+      <p style="margin:0">E-post: <a href="mailto:feue.com1@outlook.com">feue.com1@outlook.com</a></p>
+      <p style="margin:8px 0 0 0">Website: <a href="https://feue256.github.io" target="_blank" rel="noopener">feue256.github.io</a></p>
+    </aside>
   </div>
-</section>
 
-<section id="contact">
-  <h2>Contact</h2>
-  <ul>
-    <li>Email: <a href="mailto:feue.com1@outlook.com">feue.com1@outlook.com</a></li>
-    <li>Website: <a href="https://feue256.github.io" target="_blank">feue256.github.io</a></li>
-  </ul>
-</section>
+  <section class="card fade-in" id="document" style="margin-top:18px">
+    <h2>Documents</h2>
+    <p class="lead">Lista och åtkomst för alla dokument. Filvägar antas ligga under mappen <code>pdf/</code>. Exempel: <code>pdf/whep_1.pdf</code> eller <code>pdf/c2t.pdf</code>.</p>
+    <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap">
+      <a class="btn" href="pdf/c2t.pdf" download>Hämta C²T</a>
+      <a class="btn" href="pdf/pon.pdf" download>Hämta PON</a>
+      <button class="btn ghost" id="openAllWhep">Visa WHEP (1–51)</button>
+    </div>
+  </section>
 
+  <section class="card fade-in" id="terms" style="margin-top:18px">
+    <h2>Terms of Access</h2>
+    <p>Genom att använda dessa filer accepterar du ansvar enligt <a href="./LICENSE" target="_blank">LICENSE</a>. Ingen reproduktion utan skriftligt tillstånd.</p>
+  </section>
+
+  <section class="card fade-in" id="contact" style="margin-top:18px">
+    <h2>Contact</h2>
+    <ul>
+      <li>Email: <a href="mailto:feue.com1@outlook.com">feue.com1@outlook.com</a></li>
+      <li>Website: <a href="https://feue256.github.io" target="_blank">feue256.github.io</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    © 2025 FÈUE – All Rights Reserved
+  </footer>
 </main>
 
-<footer>
-  © 2025 FÈUE – All Rights Reserved
-</footer>
+<!-- Modal för PDF-förhandsvisning -->
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="preview" role="document" aria-label="PDF förhandsvisning">
+    <div class="bar">
+      <div style="display:flex;gap:8px;align-items:center">
+        <strong id="previewTitle">Förhandsvisning</strong>
+        <span id="previewMeta" style="color:var(--muted);font-size:13px"></span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <a id="previewDownload" class="btn" href="#" download>Hämta</a>
+        <button class="btn ghost" id="closeModal">Stäng</button>
+      </div>
+    </div>
+    <iframe id="previewFrame" title="PDF-förhandsvisning"></iframe>
+  </div>
+</div>
 
 <script>
-function loadList() {
-  const container = document.getElementById('pdfContainer');
-  const doc = document.getElementById('docSelect').value;
-  container.innerHTML = "";
+/* ====== Konfiguration & databas (anpassa vid behov) ====== */
+const config = {
+  whepParts: 51,
+  basePath: 'pdf/',               // placera dina pdf-filer i pdf/ under webbroten
+  whepPattern: (i)=>`whep_${i}.pdf`,
+  staticFiles: {
+    c2t: 'c2t.pdf',
+    pon: 'pon.pdf'
+  }
+};
 
-  if (doc === "whep") {
-    const ul = document.createElement("ul");
-    for (let i = 1; i <= 51; i++) {
-      ul.innerHTML += `<li><a class="pdf-link" href="pdf/whep_${i}.pdf">WHEP Part ${i}</a></li>`;
+/* ====== UI-referenser ====== */
+const docSelect = document.getElementById('docSelect');
+const pdfList = document.getElementById('pdfList');
+const globalSearch = document.getElementById('globalSearch');
+const searchBtn = document.getElementById('searchBtn');
+const whepRange = document.getElementById('whepRange');
+const statusBox = document.getElementById('statusBox');
+const previewModal = document.getElementById('modal');
+const previewFrame = document.getElementById('previewFrame');
+const previewTitle = document.getElementById('previewTitle');
+const previewMeta = document.getElementById('previewMeta');
+const previewDownload = document.getElementById('previewDownload');
+const darkToggle = document.getElementById('darkToggle');
+const hambtn = document.getElementById('hambtn');
+const mainNav = document.getElementById('mainNav');
+const openAllWhep = document.getElementById('openAllWhep');
+const downloadAll = document.getElementById('downloadAll');
+
+/* ====== init ====== */
+(function init(){
+  // fyll WHEP dropdown
+  for(let i=1;i<=config.whepParts;i++){
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = 'Del ' + i;
+    whepRange.appendChild(opt);
+  }
+
+  // händelser
+  docSelect.addEventListener('change', handleDocChange);
+  whepRange.addEventListener('change', handleWhepRange);
+  searchBtn.addEventListener('click', applySearch);
+  globalSearch.addEventListener('keydown', e=>{ if(e.key==='Enter') applySearch(); });
+  pdfList.addEventListener('click', handleListClick);
+  previewDownload.addEventListener('click',()=>{
+    // native download via href attribut
+  });
+  document.getElementById('closeModal').addEventListener('click', closeModal);
+  previewModal.addEventListener('click', (e)=>{ if(e.target===previewModal) closeModal(); });
+  darkToggle.addEventListener('click', toggleDark);
+  hambtn.addEventListener('click', toggleMobileNav);
+  openAllWhep.addEventListener('click', ()=>{ docSelect.value='whep'; handleDocChange(); });
+  downloadAll.addEventListener('click', batchDownload);
+
+  // nav links SPA-like
+  document.querySelectorAll('#mainNav a').forEach(a=>{
+    a.addEventListener('click', e=>{
+      e.preventDefault();
+      document.querySelectorAll('#mainNav a').forEach(x=>x.classList.remove('active'));
+      a.classList.add('active');
+      const tgt = document.querySelector('#'+a.dataset.target);
+      if(tgt) tgt.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+
+  // persist tema
+  const savedTheme = localStorage.getItem('feue-theme') || 'light';
+  setTheme(savedTheme);
+})();
+
+/* ====== funktioner ====== */
+function handleDocChange(){
+  const val = docSelect.value;
+  pdfList.innerHTML='';
+  statusBox.textContent = 'Laddar...';
+  whepRange.disabled = true;
+
+  if(val === 'whep'){
+    whepRange.disabled = false;
+    populateWhep('all');
+    statusBox.textContent = 'WHEP delar visas. Filväg: pdf/whep_#.pdf';
+    return;
+  }
+
+  if(val === 'c2t'){
+    const file = config.staticFiles.c2t;
+    addListItem(file, 'C²T (full)', 'C²T');
+    statusBox.textContent = 'C²T klar.';
+    return;
+  }
+
+  if(val === 'pon'){
+    const file = config.staticFiles.pon;
+    addListItem(file, 'PON (full)', 'PON');
+    statusBox.textContent = 'PON klar.';
+    return;
+  }
+
+  // tomt val
+  statusBox.textContent = 'Välj ett dokument ovan för att visa filerna.';
+}
+
+function handleWhepRange(){
+  const val = whepRange.value;
+  populateWhep(val);
+}
+
+function populateWhep(filter){
+  pdfList.innerHTML='';
+  const list = [];
+  if(filter === 'all'){
+    for(let i=1;i<=config.whepParts;i++){
+      list.push({file: config.whepPattern(i), title:`WHEP Part ${i}`, part:i});
     }
-    container.appendChild(ul);
+  } else {
+    const i = parseInt(filter,10);
+    if(!isNaN(i) && i>=1 && i<=config.whepParts){
+      list.push({file: config.whepPattern(i), title:`WHEP Part ${i}`, part:i});
+    }
   }
+  // visa
+  list.forEach(item => addListItem(item.file, item.title, 'WHEP', item.part));
+}
 
-  if (doc === "c2t") {
-    container.innerHTML = `<a class="pdf-link" href="pdf/c2t.pdf">Download C²T</a>`;
-  }
+function addListItem(filename, label, tag='Doc', part=null){
+  const li = document.createElement('li');
+  li.className = 'item';
+  li.dataset.file = filename;
+  li.dataset.label = label;
+  li.dataset.tag = tag;
+  li.innerHTML = `
+    <div class="meta">
+      <div style="min-width:38px; text-align:center; font-weight:700">${part?part:'—'}</div>
+      <div>
+        <div style="font-weight:700">${label}</div>
+        <div class="tag">${tag}</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn ghost previewBtn" title="Förhandsvisa" aria-label="Förhandsvisa ${label}">🖼️</button>
+      <a class="btn" href="${config.basePath + filename}" download>⬇️</a>
+    </div>
+  `;
+  pdfList.appendChild(li);
+}
 
-  if (doc === "pon") {
-    container.innerHTML = `<a class="pdf-link" href="pdf/pon.pdf">Download PON</a>`;
+function handleListClick(e){
+  const target = e.target;
+  const item = target.closest('.item');
+  if(!item) return;
+  if(target.classList.contains('previewBtn') || target.closest('.previewBtn')){
+    const file = item.dataset.file;
+    const label = item.dataset.label;
+    openPreview(file, label);
   }
 }
-</script>
 
+function applySearch(){
+  const q = globalSearch.value.trim().toLowerCase();
+  if(!q){
+    // visa baserat på nuvarande docselect
+    handleDocChange();
+    return;
+  }
+
+  // sök i genererade listan genom att försöka matcha både statiska filer och WHEP
+  pdfList.innerHTML = '';
+  const results = [];
+
+  // kolla statiska
+  Object.keys(config.staticFiles).forEach(key=>{
+    const f = config.staticFiles[key];
+    const title = key.toUpperCase();
+    if(f.toLowerCase().includes(q) || title.toLowerCase().includes(q)) results.push({file:f, title: title, tag: key.toUpperCase()});
+  });
+
+  // sök i WHEP efter nummer eller text
+  for(let i=1;i<=config.whepParts;i++){
+    const fname = config.whepPattern(i);
+    const title = `WHEP Part ${i}`;
+    if(title.toLowerCase().includes(q) || fname.toLowerCase().includes(q) || String(i)===q) {
+      results.push({file: fname, title: title, tag:'WHEP', part:i});
+    }
+  }
+
+  if(results.length===0){
+    statusBox.textContent = 'Inga träffar för: ' + q;
+    return;
+  }
+
+  results.forEach(r=> addListItem(r.file, r.title, r.tag, r.part));
+  statusBox.textContent = results.length + ' träff(ar) för: ' + q;
+}
+
+/* Preview modal */
+function openPreview(file, title){
+  previewFrame.src = config.basePath + file;
+  previewTitle.textContent = title;
+  previewMeta.textContent = file;
+  previewDownload.href = config.basePath + file;
+  previewDownload.setAttribute('download', file);
+  previewModal.classList.add('open');
+  previewModal.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  previewModal.classList.remove('open');
+  previewModal.setAttribute('aria-hidden','true');
+  previewFrame.src = 'about:blank';
+  document.body.style.overflow='';
+}
+
+/* Dark mode */
+function toggleDark(){
+  const cur = document.body.getAttribute('data-theme') || 'light';
+  const next = cur === 'light' ? 'dark' : 'light';
+  setTheme(next);
+}
+function setTheme(t){
+  document.body.setAttribute('data-theme', t);
+  localStorage.setItem('feue-theme', t);
+  darkToggle.textContent = t === 'dark' ? 'Ljus' : 'Dark';
+}
+
+/* Mobile nav */
+function toggleMobileNav(){
+  const isOpen = mainNav.style.display === 'flex';
+  if(isOpen){
+    mainNav.style.display = '';
+  } else {
+    mainNav.style.display = 'flex';
+    mainNav.style.position = 'absolute';
+    mainNav.style.right = '10px';
+    mainNav.style.top = '64px';
+    mainNav.style.background = 'var(--card)';
+    mainNav.style.padding = '8px';
+    mainNav.style.borderRadius = '10px';
+    mainNav.style.boxShadow = '0 10px 30px rgba(2,6,23,0.12)';
+    mainNav.style.flexDirection = 'column';
+  }
+}
+
+/* Batch download (enkelt) */
+function batchDownload(){
+  // Enkel export: skapa ZIP ej möjligt i ren client utan lib. Här skapar vi en textfil med länkar som fallback.
+  const items = Array.from(document.querySelectorAll('.item'));
+  if(items.length===0){ alert('Inga filer att exportera.'); return; }
+  const links = items.map(it => location.origin + '/' + (config.basePath + it.dataset.file)).join('\n');
+  const blob = new Blob([links], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'feue_export_links.txt';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+  alert('Exporterad lista med länkar (feue_export_links.txt). För riktig ZIP-serverkomprimering: kör server-side script eller använd GitHub Actions.');
+}
+</script>
 </body>
 </html>
