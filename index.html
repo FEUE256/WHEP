@@ -97,7 +97,7 @@
   <div class="grid">
     <section class="card fade-in" aria-labelledby="aboutTitle">
       <h2 id="aboutTitle">About</h2>
-      <p class="lead">This website provides access to research documents created by FÈUE — including WHEP, C²T, and PON. Use search and filters to quickly find parts.</p>
+      <p class="lead">This website provides access to research documents created by FÈUE — including WHEP and PON. Use search and filters to quickly find parts.</p>
 
       <p>IMPORTANT: ISBN for WHEP is 978-91-531-6601-6</p>
 
@@ -106,7 +106,6 @@
         <select id="docSelect" aria-label="Select document">
           <option value="">— Select document —</option>
           <option value="whep">WHEP (1–51)</option>
-          <option value="c2t">C²T (Full PDF)</option>
           <option value="pon">PON (Full PDF)</option>
         </select>
 
@@ -140,9 +139,8 @@
 
   <section class="card fade-in" id="document" style="margin-top:18px">
     <h2>Documents</h2>
-    <p class="lead">List and access all documents. File paths are assumed under <code>pdf/</code>. Example: <code>pdf/whep_1.pdf</code> or <code>pdf/c2t.pdf</code>.</p>
+    <p class="lead">List and access all documents. File paths are assumed under <code>pdf/</code>. Example: <code>pdf/whep_1.pdf</code></p>
     <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap">
-      <a class="btn" href="pdf/c2t.pdf" download>Download C²T</a>
       <a class="btn" href="pdf/pon.pdf" download>Download PON</a>
       <a class="btn" href="pdf/a.pdf" download>Download Alpha Function</a>
       <a class="btn" href="52d.mp4" download>Download 52d</a>
@@ -192,7 +190,7 @@ const config = {
   whepParts: 51,
   basePath: 'pdf/',
   whepPattern: (i)=>`whep_${i}.pdf`,
-  staticFiles: {c2t:'c2t.pdf', pon:'pon.pdf'}
+  staticFiles: {pon:'pon.pdf'}
 };
 
 const docSelect = document.getElementById('docSelect');
@@ -253,7 +251,6 @@ function handleDocChange(){
   whepRange.disabled=true;
 
   if(val==='whep'){ whepRange.disabled=false; populateWhep('all'); statusBox.textContent='WHEP parts displayed. Path: pdf/whep_#.pdf'; return;}
-  if(val==='c2t'){ addListItem(config.staticFiles.c2t,'C²T (Full)','C²T'); statusBox.textContent='C²T ready.'; return;}
   if(val==='pon'){ addListItem(config.staticFiles.pon,'PON (Full)','PON'); statusBox.textContent='PON ready.'; return;}
   statusBox.textContent='Select a document above to show files.';
 }
